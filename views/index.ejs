@@ -1,0 +1,112 @@
+<html>
+
+<!-- head is information not displayed on the page -->
+<head>
+  <% include partials/head %>
+
+</head>
+
+<!-- Body is what is displayed on the page -->
+<body>
+
+  <div class="wrapper">
+
+    <div class="header">
+      <% include partials/header %>
+    </div>
+
+    <div class="main">
+
+      <div id="chart"></div>
+
+      <table style="display: none;">
+
+        <tr>
+          <th>Date</th>
+          <th>Download</th>
+          <th>Upload</th>
+        </tr>
+
+        <!-- iterate over items coming from DB -->
+
+        <%
+        toLocaleStringOptions = {
+          hour12: false,
+          year:'numeric',
+          month:'2-digit',
+          day: '2-digit',
+          hour: "2-digit",
+          minute: "2-digit",
+        }
+        %>
+
+        <% for(var i=0; i<data.length; i++) { %>
+
+          <tr>
+            <td><%= data[i].date.toLocaleString('ja-JP', toLocaleStringOptions) %></td>
+            <td><%= data[i].download %></td>
+            <td><%= data[i].upload %></td>
+          </tr>
+
+        <% } %>
+
+      </table>
+
+    </div> <!-- end of main -->
+
+    <div class="footer">
+      <% include partials/footer %>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+
+  var time_array = ['x'];
+  var download_array = ['download'];
+  var upload_array = ["upload"];
+
+  <% for(var i=0; i<data.length; i++) { %>
+    time_array.push(new Date('<%= data[i].date %>'));
+    download_array.push(<%= data[i].download %>);
+    upload_array.push(<%= data[i].upload %>);
+  <% } %>
+
+
+  var chart = c3.generate({
+    bindto: '#chart',
+    data: {
+      x: 'x',
+      columns: [
+        time_array,
+        download_array,
+        upload_array,
+      ]
+    },
+    axis: {
+      x: {
+        label: 'Time',
+        type: 'timeseries',
+        tick: {
+          format: '%y/%m/%d %H:%M'
+        }
+      },
+      y: {
+        label: "Speed MB/s",
+        min: 0,
+        padding: {
+          bottom: 0,
+        }
+      }
+    },
+    point: {
+      show: false,
+    },
+  });
+
+
+  </script>
+
+</body>
+
+</html>
