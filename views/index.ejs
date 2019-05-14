@@ -83,16 +83,20 @@
         upload_array,
       ]
     },
+    subchart: {
+      show: true
+    },
     axis: {
       x: {
         label: 'Time',
         type: 'timeseries',
         tick: {
-          format: '%y/%m/%d %H:%M'
+          format: '%y/%m/%d %H:%M',
+          count: 10,
         }
       },
       y: {
-        label: "Speed MB/s",
+        label: "Speed [MB/s]",
         min: 0,
         padding: {
           bottom: 0,
