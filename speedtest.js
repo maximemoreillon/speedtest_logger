@@ -41,7 +41,7 @@ app.get('/', function(req, res) {
 
 
 // Scrape periodically
-schedule.scheduleJob('0/30 * * * *', () => {
+schedule.scheduleJob('*/10 * * * *', () => {
   console.log("[Speedtest] Running speedtest...")
   var test = speedTest({maxTime: 5000});
 
